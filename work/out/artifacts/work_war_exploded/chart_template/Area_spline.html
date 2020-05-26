@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area spline Chart</title>
+    <script src="../chart_template/js/highstock.js"></script>
+    <script src="../chart_template/js/data.js"></script>
+    <script src="../chart_template/js/exporting.js"></script>
+    <script src="../chart_template/js/export-data.js"></script>
+</head>
+<body>
+<div id="container" style="height: 400px; min-width: 310px"></div>
+
+<script>
+    Highcharts.getJSON('../chart_template/json/aapl-c.json', function (data) {
+
+        // Create the chart
+        Highcharts.stockChart('container', {
+
+            rangeSelector: {
+                selected: 1
+            },
+
+            title: {
+                text: 'AAPL Stock Price'
+            },
+
+            series: [{
+                name: 'AAPL Stock Price',
+                data: data,
+                step: true,
+                tooltip: {
+                    valueDecimals: 2
+                }
+            }]
+        });
+    });
+</script>
+</body>
+</html>

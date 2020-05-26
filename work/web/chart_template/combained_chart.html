@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Combined chart</title>
+    <script src="../chart_template/js/highstock.js"></script>
+    <script src="../chart_template/js/data.js"></script>
+    <script src="../chart_template/js/exporting.js"></script>
+    <script src="../chart_template/js/export-data.js"></script>
+    <script src="../chart_template/js/highcharts-more.js"></script>
+    <script src="../chart_template_general/js/theme.js"></script>
+    <script src="../chart_template_general/js/drag-panes.js"></script>
+    <!--stock chart with GUI css style Start-->
+    <link rel="stylesheet" type="text/css" href="../chart_template_general/css/gui.css">
+    <link rel="stylesheet" type="text/css" href="../chart_template_general/css/popup.css">
+    <script src="../chart_template_general/js/indicators-all.js"></script>
+    <script src="../chart_template_general/js/price-indicator.js"></script>
+    <script src="../chart_template_general/js/full-screen.js"></script>
+    <script src="../chart_template_general/js/annotations-advanced.js"></script>
+    <!--<script src="../chart_template_general/js/stock-tools.js"></script>-->
+    <!--stock chart with GUI css style End-->
+
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            font-family: "Roboto Thin", sans-serif;
+            background: #777777;
+        }
+        .total_chart {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+
+        #container1, #container2, #container3,#container4, #container5, #container6, #container7 {
+            max-width: 100%;
+            float: left;
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+</head>
+<body>
+<div class="total_chart">
+    <div id="container1"></div>
+    <div id="container2"></div>
+    <div id="container3"></div>
+    <div id="container4"></div>
+    <div id="container5"></div>
+    <div id="container6"></div>
+    <div id="container7"></div>
+
+</div>
+<script>
+    Highcharts.getJSON('../chart_template/json/aapl-c.json', function (data) {
+
+        // Create the chart
+        Highcharts.stockChart('container1', {
+
+            rangeSelector: {
+                selected: 1
+            },
+
+            title: {
+                text: 'Stock Price'
+            },
+
+            series: [{
+                name: 'Stock Price',
+                data: data,
+                type: 'area',
+                threshold: null,
+                tooltip: {
+                    valueDecimals: 2
+                },
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                }
+            }]
+        });
+    });
+
+    Highcharts.getJSON('../chart_template/json/aapl-c.json', function (data) {
+
+        // Create the chart
+        Highcharts.stockChart('container2', {
+
+
+            rangeSelector: {
+                selected: 1
+            },
+
+            title: {
+                text: 'Stock Price'
+            },
+
+            series: [{
+                name: 'Stock Price',
+                data: data,
+                type: 'areaspline',
+                threshold: null,
+                tooltip: {
+                    valueDecimals: 2
+                },
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                }
+            }]
+        });
+    });
+
+    Highcharts.getJSON('../chart_template/json/aapl-c.json', function (data) {
+
+        // Create the chart
+        Highcharts.stockChart('container3', {
+
+            rangeSelector: {
+                selected: 1
+            },
+
+            title: {
+                text: 'Stock Price'
+            },
+
+            series: [{
+                name: 'Stock Price',
+                data: data,
+                step: true,
+                tooltip: {
+                    valueDecimals: 2
+                }
+            }]
+        });
+    });
+
+    Highcharts.getJSON('../chart_template/json/aapl-ohlc.json', function (data) {
+
+        // create the chart
+        Highcharts.stockChart('container4', {
+            chart: {
+                alignTicks: false
+            },
+
+            rangeSelector: {
+                selected: 1
+            },
+
+            title: {
+                text: 'Stock Price'
+            },
+
+            series: [{
+                type: 'column',
+                name: 'Stock Price',
+                data: data,
+                dataGrouping: {
+                    units: [[
+                        'week', // unit name
+                        [1] // allowed multiples
+                    ], [
+                        'month',
+                        [1, 2, 3, 4, 6]
+                    ]]
+                }
+            }]
+        });
+    });
+
+    // Create the chart
+    Highcharts.stockChart('container5', {
+        chart: {
+            events: {
+                load: function () {
+
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    setInterval(function () {
+                        var x = (new Date()).getTime(), // current time
+                            y = Math.round(Math.random() * 100);
+                        series.addPoint([x, y], true, true);
+                    }, 1000);
+                }
+            }
+        },
+
+        time: {
+            useUTC: false
+        },
+
+        rangeSelector: {
+            buttons: [{
+                count: 1,
+                type: 'minute',
+                text: '1M'
+            }, {
+                count: 5,
+                type: 'minute',
+                text: '5M'
+            }, {
+                type: 'all',
+                text: 'All'
+            }],
+            inputEnabled: false,
+            selected: 0
+        },
+
+        title: {
+            text: 'Live random data'
+        },
+
+        exporting: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Random data',
+            data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -999; i <= 0; i += 1) {
+                    data.push([
+                        time + i * 1000,
+                        Math.round(Math.random() * 100)
+                    ]);
+                }
+                return data;
+            }())
+        }]
+    });
+
+    Highcharts.getJSON('../chart_template_general/json/aapl-ohlcv.json', function (data) {
+
+        // split the data set into ohlc and volume
+        var ohlc = [],
+            volume = [],
+            dataLength = data.length,
+            // set the allowed units for data grouping
+            groupingUnits = [[
+                'week',                         // unit name
+                [1]                             // allowed multiples
+            ], [
+                'month',
+                [1, 2, 3, 4, 6]
+            ]],
+
+            i = 0;
+
+        for (i; i < dataLength; i += 1) {
+            ohlc.push([
+                data[i][0], // the date
+                data[i][1], // open
+                data[i][2], // high
+                data[i][3], // low
+                data[i][4] // close
+            ]);
+
+            volume.push([
+                data[i][0], // the date
+                data[i][5] // the volume
+            ]);
+        }
+
+
+        // create the chart
+        Highcharts.stockChart('container6', {
+
+            rangeSelector: {
+                selected: 1
+            },
+
+            title: {
+                text: 'Historical'
+            },
+
+            yAxis: [{
+                labels: {
+                    align: 'right',
+                    x: -3
+                },
+                title: {
+                    text: 'OHLC'
+                },
+                height: '60%',
+                lineWidth: 2,
+                resize: {
+                    enabled: true
+                }
+            }, {
+                labels: {
+                    align: 'right',
+                    x: -3
+                },
+                title: {
+                    text: 'Volume'
+                },
+                top: '65%',
+                height: '35%',
+                offset: 0,
+                lineWidth: 2
+            }],
+
+            tooltip: {
+                split: true
+            },
+
+            series: [{
+                type: 'candlestick',
+                name: 'AAPL',
+                data: ohlc,
+                dataGrouping: {
+                    units: groupingUnits
+                }
+            }, {
+                type: 'column',
+                name: 'Volume',
+                data: volume,
+                yAxis: 1,
+                dataGrouping: {
+                    units: groupingUnits
+                }
+            }]
+        });
+    });
+
+    Highcharts.getJSON('../chart_template_general/json/aapl-ohlcv.json', function (data) {
+        // split the data set into ohlc and volume
+        var ohlc = [],
+            volume = [],
+            dataLength = data.length,
+            i = 0;
+
+        for (i; i < dataLength; i += 1) {
+            ohlc.push([
+                data[i][0], // the date
+                data[i][1], // open
+                data[i][2], // high
+                data[i][3], // low
+                data[i][4] // close
+            ]);
+
+            volume.push([
+                data[i][0], // the date
+                data[i][5] // the volume
+            ]);
+        }
+
+        Highcharts.stockChart('container7', {
+            yAxis: [{
+                labels: {
+                    align: 'left'
+                },
+                height: '80%',
+                resize: {
+                    enabled: true
+                }
+            }, {
+                labels: {
+                    align: 'left'
+                },
+                top: '80%',
+                height: '20%',
+                offset: 0
+            }],
+            tooltip: {
+                shape: 'square',
+                headerShape: 'callout',
+                borderWidth: 0,
+                shadow: false,
+                positioner: function (width, height, point) {
+                    var chart = this.chart,
+                        position;
+
+                    if (point.isHeader) {
+                        position = {
+                            x: Math.max(
+                                // Left side limit
+                                chart.plotLeft,
+                                Math.min(
+                                    point.plotX + chart.plotLeft - width / 2,
+                                    // Right side limit
+                                    chart.chartWidth - width - chart.marginRight
+                                )
+                            ),
+                            y: point.plotY
+                        };
+                    } else {
+                        position = {
+                            x: point.series.chart.plotLeft,
+                            y: point.series.yAxis.top - chart.plotTop
+                        };
+                    }
+
+                    return position;
+                }
+            },
+            series: [{
+                type: 'ohlc',
+                id: 'aapl-ohlc',
+                name: 'AAPL Stock Price',
+                data: ohlc
+            }, {
+                type: 'column',
+                id: 'aapl-volume',
+                name: 'AAPL Volume',
+                data: volume,
+                yAxis: 1
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 800
+                    },
+                    chartOptions: {
+                        rangeSelector: {
+                            inputEnabled: false
+                        }
+                    }
+                }]
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock chart with GUI chart</title>
+    <script src="../chart_template_general/js/highstock.js"></script>
+    <script src="../chart_template_general/js/data.js"></script>
+    <script src="../chart_template_general/js/indicators-all.js"></script>
+    <script src="../chart_template_general/js/drag-panes.js"></script>
+    <script src="../chart_template_general/js/price-indicator.js"></script>
+    <script src="../chart_template_general/js/full-screen.js"></script>
+    <script src="../chart_template_general/js/annotations-advanced.js"></script>
+    <script src="../chart_template_general/js/stock-tools.js"></script>
+    <script src="../chart_template_general/js/theme.js"></script>
+    <link rel="stylesheet" type="text/css" href="../chart_template_general/css/gui.css">
+    <link rel="stylesheet" type="text/css" href="../chart_template_general/css/popup.css">
+
+    <style>
+        #container {
+            max-height: 800px;
+            height: 75vh;
+        }
+
+        /* Conflict with Bootstrap, not needed after v7.0.1 */
+        .highcharts-bindings-wrapper * {
+            box-sizing: content-box;
+        }
+    </style>
+</head>
+<body>
+<div id="container" style="height: 400px; min-width: 310px"></div>
+<script>
+    Highcharts.getJSON('../chart_template_general/json/aapl-ohlcv.json', function (data) {
+        // split the data set into ohlc and volume
+        var ohlc = [],
+            volume = [],
+            dataLength = data.length,
+            i = 0;
+
+        for (i; i < dataLength; i += 1) {
+            ohlc.push([
+                data[i][0], // the date
+                data[i][1], // open
+                data[i][2], // high
+                data[i][3], // low
+                data[i][4] // close
+            ]);
+
+            volume.push([
+                data[i][0], // the date
+                data[i][5] // the volume
+            ]);
+        }
+
+        Highcharts.stockChart('container', {
+            yAxis: [{
+                labels: {
+                    align: 'left'
+                },
+                height: '80%',
+                resize: {
+                    enabled: true
+                }
+            }, {
+                labels: {
+                    align: 'left'
+                },
+                top: '80%',
+                height: '20%',
+                offset: 0
+            }],
+            tooltip: {
+                shape: 'square',
+                headerShape: 'callout',
+                borderWidth: 0,
+                shadow: false,
+                positioner: function (width, height, point) {
+                    var chart = this.chart,
+                        position;
+
+                    if (point.isHeader) {
+                        position = {
+                            x: Math.max(
+                                // Left side limit
+                                chart.plotLeft,
+                                Math.min(
+                                    point.plotX + chart.plotLeft - width / 2,
+                                    // Right side limit
+                                    chart.chartWidth - width - chart.marginRight
+                                )
+                            ),
+                            y: point.plotY
+                        };
+                    } else {
+                        position = {
+                            x: point.series.chart.plotLeft,
+                            y: point.series.yAxis.top - chart.plotTop
+                        };
+                    }
+
+                    return position;
+                }
+            },
+            series: [{
+                type: 'ohlc',
+                id: 'aapl-ohlc',
+                name: 'AAPL Stock Price',
+                data: ohlc
+            }, {
+                type: 'column',
+                id: 'aapl-volume',
+                name: 'AAPL Volume',
+                data: volume,
+                yAxis: 1
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 800
+                    },
+                    chartOptions: {
+                        rangeSelector: {
+                            inputEnabled: false
+                        }
+                    }
+                }]
+            }
+        });
+    });
+</script>
+</body>
+</html>

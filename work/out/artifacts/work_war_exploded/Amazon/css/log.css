@@ -1,0 +1,114 @@
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 13px;
+    line-height: 19px;
+    color: #111;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    background-color: #777;
+}
+
+#nav-logo {
+    padding-top: 5px;
+    padding-right: 4px;
+}
+
+#nav-logo {
+    width: 165px;
+}
+
+#nav-logo {
+    padding-left: 0;
+}
+
+#nav-logo {
+    position: relative;
+    float: left;
+    line-height: 0;
+    height: 100%;
+    padding: 13px 17px 0 27px;
+}
+
+a, a:active, a:link, a:visited {
+    text-decoration: none;
+    color: #0066c0;
+}
+
+#nav-logo .nav-logo-link {
+    height: 50px;
+    width: 100%;
+}
+
+#nav-logo .nav-logo-link {
+    clear: both;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#nav-logo .nav-logo-base {
+    float: left;
+    text-indent: -500px;
+    background-position: -10px -51px;
+    width: 97px;
+    height: 30px;
+}
+
+.nav-sprite, .nav-sprite-v1 .nav-icon {
+    background-image: url(../img/logo.png);
+    background-position: 0 1000px;
+    background-repeat: repeat-x;
+}
+
+#nav-logo .nav-logo-ext {
+    float: left;
+    display: none;
+}
+
+#nav-logo .nav-logo-locale {
+    float: left;
+    display: block;
+    margin: 6px 0 0 1px;
+    font-size: 13.5px;
+    color: #fff;
+    line-height: 14px;
+    font-weight: regular;
+    font-family: inherit;
+}
+
+.nav-logo-locale {
+    display: block;
+    background-position: -270px -109px;
+    width: 15px;
+    height: 14px;
+}
+
+#nav-logo .nav-prime-try {
+    top: 33px;
+}
+
+#navbar.hamburger #nav-logo .nav-logo-tagline {
+    left: 65px;
+}
+
+#nav-logo .nav-prime-try {
+    top: 31px;
+    left: 93px;
+}
+
+#nav-logo .nav-logo-tagline {
+    position: absolute;
+    top: 32px;
+    font-size: 11px;
+    line-height: 11px;
+    font-family: inherit;
+    white-space: nowrap;
+    color: #48a3c6;
+    background-repeat: no-repeat;
+    background-position: -1000px 0;
+    text-decoration: underline;
+    font-weight: 700;
+}
